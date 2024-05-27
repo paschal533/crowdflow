@@ -1,0 +1,11 @@
+[package]
+name = "oracles"
+version = "0.0.1"
+published-at = "0x7663fcce1db794ff41eb96853f9819a8789b14beda655525e3762a451a18eb9a"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+supra_holder = { local = "dependencies/supra_oracle/supra_holder" }
+
+[addresses]
+oracles = "0x7663fcce1db794ff41eb96853f9819a8789b14beda655525e3762a451a18eb9a"

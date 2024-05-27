@@ -1,0 +1,36 @@
+---
+compiled_package_info:
+  package_name: oracles
+  address_alias_instantiation:
+    oracles: 7663fcce1db794ff41eb96853f9819a8789b14beda655525e3762a451a18eb9a
+    std: "0000000000000000000000000000000000000000000000000000000000000001"
+    sui: "0000000000000000000000000000000000000000000000000000000000000002"
+    supra_holder: 2fdff17b86e34ab722c8ba5e63f0da070d9a4163705b3fdc6a95802cab40a72a
+    supra_utils: 7237ec8436ef7e927c45470db6db3a834dd84cf903aedee3844e847fe4805399
+    supra_validator: 277f90d256d1015a78cad646db091bec451c5bbab834b9fb70bace7885b5c698
+  source_digest: 23E7E0D832FEFDBAF770E5828DAD776B6393E39CF850B1B097A6C0EF53718095
+  build_flags:
+    dev_mode: false
+    test_mode: false
+    generate_docs: false
+    install_dir: ~
+    force_recompilation: false
+    lock_file: "./Move.lock"
+    fetch_deps_only: false
+    skip_fetch_latest_git_deps: false
+    default_flavor: sui
+    default_edition: ~
+    deps_as_root: false
+    silence_warnings: false
+    warnings_are_errors: false
+    json_errors: false
+    additional_named_addresses: {}
+    lint_flag:
+      no_lint: false
+      lint: false
+dependencies:
+  - MoveStdlib
+  - Sui
+  - supra_holder
+  - supra_utils
+  - supra_validator
