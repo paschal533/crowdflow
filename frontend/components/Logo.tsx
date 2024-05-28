@@ -23,7 +23,7 @@ const Logo = () => {
               currentAccount ? "sm:mt-1" : "sm:mt-2"
             } mt-1 minlg:mt-4 font-bold dark:text-white text-nft-black-1`}
           >
-            FundBrave
+            CrowdFlow
           </p>
         </a>
       </Link>

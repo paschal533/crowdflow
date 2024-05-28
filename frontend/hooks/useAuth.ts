@@ -1,76 +1,63 @@
-import { useEffect, useRef, useState } from "react";
-import MetaMaskOnboarding from "@metamask/onboarding";
+import { useEffect, useCallback, useState } from "react";
 import { handleNewNotification, handleConnect } from "@/services/notifications";
-import { useAccount, useSwitchNetwork, useNetwork } from "wagmi";
+import { AuthService } from '@/utils/authService';
+
+import { SuiService } from '@/utils/suiService';
 
 const useAuth = () => {
-  const onboarding = useRef<MetaMaskOnboarding>();
-  const { address, isConnecting, isDisconnected } = useAccount();
   const [accounts, setAccounts] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { chains, error, pendingChainId, switchNetwork } = useSwitchNetwork();
-  const { chain } = useNetwork();
+  const [balance, setBalance] = useState("0");
+  const suiService = new SuiService();
 
-  useEffect(() => {
-    setAccounts(address);
+  const getBalance = useCallback(async () => {
+    try {
 
-    if (!isConnecting && chains[0]?.id !== chain?.id) {
-      switchNetwork && switchNetwork(chains[0].id);
-    }
-    if (address?.length === undefined) {
-      handleNewNotification();
-    } else {
-      handleConnect();
-    }
-  }, [address, chain?.id]);
+      if (AuthService.isAuthenticated()) {
 
-  /** Check if connected */
-  /*useEffect(() => {
-    let isMounted = true;
+        setBalance(await suiService.getFormattedBalance(AuthService.walletAddress()));
 
-    function handleNewAccounts(newAccounts: string[]) {
-      if (!isMounted) {
-        return;
       }
-      setAccounts(newAccounts);
+
+    } catch (error) {
+
+      console.log({ error });
+
+    } finally {
+
     }
 
-    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then(handleNewAccounts);
-      window.ethereum.on("accountsChanged", handleNewAccounts);
-      return () => {
-        isMounted = false;
-        window.ethereum.removeListener("accountsChanged", handleNewAccounts);
-      };
-    } else {
-      notifyMetamaskIsNotFounded();
-    }
-  }, []);*/
+  });
 
-  const connectWallet = async () => {
-    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      setIsLoading(true);
-      const newAccounts: string[] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
 
-      setAccounts(newAccounts[0]);
-      setIsLoading(false);
-    } else {
-      onboarding.current?.startOnboarding();
-    }
+  const logout = async () => {
+
+    sessionStorage.clear();
+
+
+    window.location.href = '/';
+
   };
 
-  const disconnectWallet = async () => {};
+  useEffect(() => {
+
+    getBalance();
+
+    if (AuthService.isAuthenticated()) {
+
+      setAccounts(AuthService.walletAddress());
+  
+    }
+
+  }, [getBalance, accounts]);
+
 
   return {
     accounts,
+    balance,
     currentAccount: accounts,
     isLoading,
-    connectWallet,
-    disconnectWallet,
+    logout,
   };
 };
 

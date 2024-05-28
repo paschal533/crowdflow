@@ -5,6 +5,7 @@
   margin-bottom: 20px;
 }
 
+
 .inputContainer {
   align-items: flex-start !important;
   gap: 0.5rem;
@@ -190,7 +191,7 @@
 }
 
 .klaytnLogo {
-  width: 20px;
+  width: 30px;
   height: 30px;
 }
 
@@ -372,6 +373,7 @@
   text-align: center;
   color: #1c1c1c;
 }
+
 
 .editBtn {
   text-decoration: underline;

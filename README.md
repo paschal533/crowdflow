@@ -1,6 +1,6 @@
-﻿# FundBrave
+﻿# CrowdFlow
 
-FundBrave is a decentralized fundraising application built for fundraising organizations around the world, where users can create a fundraising campaign, Share the campaign on any social media platform, Donate to a fundraiser with a Ethereum token and print the receipt of their donations.
+CrowdFlow is a decentralized fundraising application built for fundraising organizations around the world, where users can create a fundraising campaign, Share the campaign on any social media platform, Donate to a fundraiser with a Ethereum token and print the receipt of their donations.
 
 # 🛠 Technology Stack & Tools
 
@@ -20,15 +20,15 @@ FundBrave is a decentralized fundraising application built for fundraising organ
 
 # 🚀 Quick Start
 
-📄 Clone or fork FundBrave:
+📄 Clone or fork CrowdFlow:
 
 ```
-https://github.com/paschal533/fundbrave.git
+https://github.com/paschal533/CrowdFlow.git
 ```
 💿 Install all dependencies:
  
 ```
-$ cd FundBrave
+$ cd CrowdFlow
 $ cd frontend
 $ npm install 
 ```
@@ -58,7 +58,7 @@ npm run dev
 # 📄 interacting with the Smart-contract
 
 ```
-$ cd FundBrave
+$ cd CrowdFlow
 $ cd smart-contract
 $ npm install
 ```

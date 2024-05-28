@@ -1,14 +1,16 @@
 import { useEffect, useState, useContext } from "react";
+import { Notification } from "./Notifications";
 import Image from "next/image";
 import images from "@/assets";
 import Logo from "@/components/Logo";
 import NavMenu from "@/components/NavMenu";
 import NavButtonGroup from "@/components/NavButtonGroup";
-import { ConnectKitButton } from "connectkit";
 import styled from "styled-components";
 import { BiMenuAltRight } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import { AuthContext } from "@/context/AuthContext";
+import { AuthService } from "@/utils/authService";
+import Wallet from "./Wallet";
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -44,7 +46,8 @@ const StyledButton = styled.button`
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { currentAccount } = useContext(AuthContext);
+  const { currentAccount, logout, balance } = useContext(AuthContext);
+  const authService = new AuthService();
 
   useEffect(() => {
     // disable body scroll when navbar is open
@@ -53,6 +56,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky z-20 top-0 left-0 flex flex-row justify-between w-full p-4 bg-white border-b align-center border-nft-gray-1 dark:bg-nft-dark dark:border-nft-black-1">
+     <Notification />
       <Logo />
 
       <div className="flex flex-row justify-end flex-initial">
@@ -67,17 +71,18 @@ const Navbar = () => {
       <div className="hidden ml-2 md:flex">
         <div className="mr-4">
           {!currentAccount ? (
-            <ConnectKitButton.Custom>
-              {({ isConnected, show, truncatedAddress, ensName }) => {
-                return (
-                  <StyledButton onClick={show}>
-                    {isConnected ? ensName ?? truncatedAddress : "Connect"}
+             
+                  <StyledButton  onClick={() => authService.login()}>
+                    Login with Google
                   </StyledButton>
-                );
-              }}
-            </ConnectKitButton.Custom>
+                
           ) : (
-            <ConnectKitButton />
+            <Wallet
+              address={currentAccount}
+              amount={balance}
+              symbol="SUI"
+              destroy={logout}
+            />
           )}
         </div>
         {/*<Image

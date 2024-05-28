@@ -33,6 +33,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { BTN } from "@components/index";
 import { ConnectKitButton } from "connectkit";
 import styled from "styled-components";
+import SignIn from "@components/signIn";
 
 const projectId = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET;
@@ -169,7 +170,7 @@ function List() {
           <Text as="span" className={styles.successTextHeavy}>
             {title}
           </Text>{" "}
-          has been successfully listed on FundBrave. You can edit the campaign
+          has been successfully listed on CrowdFlow. You can edit the campaign
           anytime.
         </Text>
         <VStack className={styles.buttonContainer}>
@@ -305,22 +306,22 @@ function StepOne({
           <Text className={styles.inputHeader}>Default Network</Text>
           <HStack className="w-[550px] sm:w-[340px] h-[75px] p-[1rem] rounded-[15px] border-[2px] border-black">
             <Image
-              alt="Ether logo"
-              src="/ether.png"
+              alt="SUI logo"
+              src="/sui-logo.png"
               className={styles.klaytnLogo}
             ></Image>
-            <Text fontWeight={500}>Ethereum</Text>
+            <Text fontWeight={500}>SUI</Text>
           </HStack>
         </VStack>
         <VStack className={styles.inputContainer}>
           <Text className={styles.inputHeader}>Currency</Text>
           <HStack className="w-[550px] sm:w-[340px] h-[75px] p-[1rem] rounded-[15px] border-[2px] border-black">
             <Image
-              alt="Ether logo"
-              src="/ether.png"
+              alt="SUI logo"
+              src="/sui-logo.png"
               className={styles.klaytnLogo}
             ></Image>
-            <Text fontWeight={500}>Ether</Text>
+            <Text fontWeight={500}>SUI</Text>
           </HStack>
         </VStack>
         <VStack className={styles.inputContainer}>
@@ -334,13 +335,6 @@ function StepOne({
           ></Input>
           <Text className={styles.inputUnit}>USD</Text>
         </VStack>
-        <VStack className={styles.inputContainer}>
-          <Text className={styles.inputHeader}>Recipient Address</Text>
-          <Input
-            onChange={handleAddressChange}
-            className={styles.input}
-          ></Input>
-        </VStack>
       </VStack>
       {currentAccount ? (
         <StyledButton
@@ -351,15 +345,7 @@ function StepOne({
           Next
         </StyledButton>
       ) : (
-        <ConnectKitButton.Custom>
-          {({ isConnected, show, truncatedAddress, ensName }) => {
-            return (
-              <StyledButton onClick={show}>
-                {isConnected ? ensName ?? truncatedAddress : "Connect Wallet"}
-              </StyledButton>
-            );
-          }}
-        </ConnectKitButton.Custom>
+         <SignIn />
       )}
     </VStack>
   );
@@ -716,11 +702,11 @@ function ReviewCause({
           <Text className={styles.inputHeader}>Default Network</Text>
           <HStack>
             <Image
-              alt="ether logo"
-              src="/ether.png"
+              alt="SUI logo"
+              src="/SUI.png"
               className={styles.klaytnLogo}
             ></Image>
-            <Text fontWeight={500}>Ethereum</Text>
+            <Text fontWeight={500}>SUIeum</Text>
           </HStack>
           <Divider />
         </VStack>
@@ -728,11 +714,11 @@ function ReviewCause({
           <Text className={styles.inputHeader}>Currency</Text>
           <HStack>
             <Image
-              alt="ether logo"
-              src="/ether.png"
+              alt="SUI logo"
+              src="/SUI.png"
               className={styles.klaytnLogo}
             ></Image>
-            <Text fontWeight={500}>ETHER</Text>
+            <Text fontWeight={500}>SUI</Text>
           </HStack>
           <Divider />
         </VStack>

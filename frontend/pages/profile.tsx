@@ -2,11 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { ConnectKitButton } from "connectkit";
-import { shortenAddress } from "@/utils/shortenAddress";
-import images from "@/assets";
 import { BTN, ProfileStep, UserCampaigns } from "@/components";
-import { ethers, utils } from "ethers";
 import { ProfileContext } from "@/context/ProfileContext";
 import Donations from "@/components/Donations";
 import * as API from "@/services/api";
@@ -20,13 +16,13 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import SignIn from "@components/signIn";
 
 const Home = () => {
-  const { currentAccount } = useContext(AuthContext);
+  const { currentAccount, balance } = useContext(AuthContext);
   const [currentItem, setCurrentItem] = useState("Donation Records");
   const { getTotalDonations, totalDonations, myDonations } =
     useContext(ProfileContext);
-  const [balance, setBalance] = useState(null);
 
   useEffect(() => {
     if (myDonations) {
@@ -34,19 +30,6 @@ const Home = () => {
     }
   }, [myDonations]);
 
-  useEffect(() => {
-    const getAddressBalance = async () => {
-      const provider = new ethers.providers.JsonRpcProvider(
-        `https://goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ProjectAPIKey}`
-      );
-      const balance = await provider.getBalance(currentAccount);
-      const balanceFormat = ethers.utils.formatEther(balance.toString());
-      const exchangeRate = await API.getExchangeRate();
-
-      setBalance(Number(balanceFormat) * Number(exchangeRate));
-    };
-    getAddressBalance();
-  });
 
   const MenuBar = () => {
     return (
@@ -99,7 +82,7 @@ const Home = () => {
             Profile Page
           </Text>
           <div className="flex items-center justify-center w-full">
-            <ConnectKitButton />
+             <SignIn />
           </div>
         </Flex>
       </>

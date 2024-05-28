@@ -43,7 +43,7 @@ const Footer = () => {
               alt="logo"
             />
             <p className=" dark:text-white text-nft-dark font-bold text-lg ml-1">
-              FundBrave
+              CrowdFlow
             </p>
           </div>
           <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-base mt-6">
@@ -67,7 +67,7 @@ const Footer = () => {
 
         <div className="flex-1 flexBetweenStart flex-wrap ml-10 md:ml-0 md:mt-8">
           <FooterLinks
-            heading="FundBrave"
+            heading="CrowdFlow"
             items={[
               { name: "Explore", link: "/" },
               { name: "How it Works", link: "/how-it-works" },
@@ -90,15 +90,15 @@ const Footer = () => {
       <div className="flexCenter w-full mt-5 border-t dark:border-nft-black-1 border-nft-gray-1 sm:px-4 px-16">
         <div className="flexBetween flex-row w-full minmd:w-4/5 sm:flex-col mt-7">
           <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-base">
-            FundBrave, Inc. All Rights Reserved
+            CrowdFlow, Inc. All Rights Reserved
           </p>
           <div className="flex flex-row sm:mt-4">
             {[
               {
                 image: images.instagram,
-                link: " https://www.facebook.com/fundbrave",
+                link: " https://www.facebook.com/CrowdFlow",
               },
-              { image: images.twitter, link: "https://twitter.com/fundbrave" },
+              { image: images.twitter, link: "https://twitter.com/CrowdFlow" },
               {
                 image: images.telegram,
                 link: "https://web.telegram.org/z/#5443610770",
