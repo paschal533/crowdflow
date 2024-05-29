@@ -1,8 +1,9 @@
 [package]
 name = "crowdflow-contract"
-edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
-# license = ""           # e.g., "MIT", "GPL", "Apache 2.0"
-# authors = ["..."]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
+version = "0.1.0"
+edition = "2024.beta" # to use legacy (pre-2024) Move
+license = "MIT"           # e.g., "MIT", "GPL", "Apache 2.0"
+authors = ["Paschal (okwuosahpaschal@gmail.com)"]      # e.g., ["Joe Smith (joesmith@noemail.com)", "John Snow (johnsnow@noemail.com)"]
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
@@ -21,7 +22,7 @@ oracles = { local = "../oracles" }
 
 [addresses]
 CrowdFlow = "0x0"
-fungible_tokens = "0x1"
+fungible_tokens = "0x0"
 sui = "0x2"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
