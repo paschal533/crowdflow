@@ -24,7 +24,12 @@ const Wallet = ({ address, amount, symbol, destroy }) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="shadow-lg border-0">
-            <Dropdown.Item onClick={() => { navigator.clipboard.writeText(address); toast(<NotificationSuccess text="Copied!" />) }}>
+            <Dropdown.Item
+              onClick={() => {
+                navigator.clipboard.writeText(address);
+                toast(<NotificationSuccess text="Copied!" />);
+              }}
+            >
               <Stack direction="horizontal" gap={2}>
                 <i className="bi bi-person-circle fs-4" />
                 <span className="font-monospace">{address}</span>

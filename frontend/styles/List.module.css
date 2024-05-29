@@ -5,7 +5,6 @@
   margin-bottom: 20px;
 }
 
-
 .inputContainer {
   align-items: flex-start !important;
   gap: 0.5rem;
@@ -13,7 +12,7 @@
   position: relative;
 }
 
-.checkLogo{
+.checkLogo {
   width: 40px;
   height: 40px;
 }
@@ -373,7 +372,6 @@
   text-align: center;
   color: #1c1c1c;
 }
-
 
 .editBtn {
   text-decoration: underline;

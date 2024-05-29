@@ -21,7 +21,7 @@ const Logo = () => {
           <p
             className={`ml-1 text-xl ${
               currentAccount ? "sm:mt-1" : "sm:mt-2"
-            } mt-1 minlg:mt-4 font-bold dark:text-white text-nft-black-1`}
+            } mt-2 minlg:mt-4 font-bold dark:text-white text-nft-black-1`}
           >
             CrowdFlow
           </p>

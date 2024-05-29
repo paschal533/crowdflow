@@ -1,34 +1,22 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { Address, FundraiserItem } from "@/types";
 import * as API from "@/services/api";
 import { handleNewFundraiser, handleWithdraw } from "@/services/notifications";
-import { MyDonations } from "@/types";
-import { useSigner } from "wagmi";
 
 export const useFundraisers = () => {
   const [isLoadingFundraiser, setIsLoadingFundraiser] = useState(true);
-  const [fundraisers, setFundraisers] = useState<FundraiserItem[]>([]);
-  const FundraiserCurrency = "ETHER";
+  const [fundraisers, setFundraisers] = useState<any>([]);
+  const FundraiserCurrency = "SUI";
   const [owner, setIsOwner] = useState(false);
-  const [userDonations, setUserDonations] = useState<MyDonations | null>(null);
+  //const [userDonations, setUserDonations] = useState<MyDonations | null>(null);
   const [currentSigner, setCurrentSigner] = useState<any>();
-  const [fundraisersDetails, setFundraisersDetails] = useState<
-    FundraiserItem[]
-  >([]);
+  const [fundraisersDetails, setFundraisersDetails] = useState([]);
 
   const [loadDonations, setLoadDonations] = useState(true);
   const { currentAccount } = useContext(AuthContext);
-  const { data: signer, isError, isLoading } = useSigner();
 
   useEffect(() => {
     let isMounted = true;
-
-    setCurrentSigner(signer);
-
-    if (!isLoading && !isError) {
-      setCurrentSigner(signer);
-    }
 
     const fetchFundraisers = async () => {
       setIsLoadingFundraiser(true);
@@ -44,28 +32,20 @@ export const useFundraisers = () => {
     return () => {
       isMounted = false;
     };
-  }, [currentAccount, isLoading, isError, signer]);
+  }, [currentAccount]);
 
   useEffect(() => {
     const fetchFundraisers = async () => {
-      const items = await API.fetchFundraisers();
+      const items = await API.fetchFundraisers;
+      //@ts-ignore
       setFundraisersDetails(items);
     };
 
     fetchFundraisers();
   }, []);
 
-  // NOTE: Maybe subscribe to new blocks to update Fundraisers list in real time + New Fundraisers notifications
-  //   useEffect(() => {
-  //     provider.on("block", fetchFundraisers);
-  //     return () => {
-  //       provider.off("block", fetchFundraisers);
-  //     };
-  //   }, [fetchFundraisers]);
-
-  // Get a fundraiser details
   const getFundRaiserDetails = async (address: string) => {
-    try {
+    /*try {
       if (!currentAccount) {
         return;
       }
@@ -87,35 +67,35 @@ export const useFundraisers = () => {
       setLoadDonations(false);
     } catch (error) {
       console.log(error);
-    }
+    }*/
   };
 
   // Create a fundraiser
   const createAFundraiser = async (
+    target: number,
+    milestone_count: number,
+    tokenName: string,
+    symbol: string,
     name: string,
     images: Array<string>,
     categories: Array<string>,
     description: string,
-    country: string,
-    beneficiary: Address,
-    goal: number
+    region: string
   ) => {
-    //const signer = await getProvider();
-
-    const contract = API.fetchContract(currentSigner);
-
-    const transaction = await contract.createFundraiser(
+    //@ts-ignore
+    const transaction = await API.createFundraiser(
+      target,
+      milestone_count,
+      tokenName,
+      symbol,
       name,
       images,
       categories,
       description,
-      country,
-      beneficiary,
-      goal
+      region
     );
 
     setIsLoadingFundraiser(true);
-    await transaction.wait();
     handleNewFundraiser();
     setIsLoadingFundraiser(false);
   };
@@ -126,10 +106,8 @@ export const useFundraisers = () => {
       return;
     }
 
-    //const signer = await getProvider();
-
-    const instance = API.fetchFundraiserContract(address, currentSigner);
-    await instance.withdraw({ from: currentAccount });
+    //@ts-ignore
+    await API.withdraw();
 
     handleWithdraw();
   };
@@ -137,7 +115,6 @@ export const useFundraisers = () => {
   return {
     isLoadingFundraiser,
     fundraisers,
-    userDonations,
     FundraiserCurrency,
     loadDonations,
     setLoadDonations,

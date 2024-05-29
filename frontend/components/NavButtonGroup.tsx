@@ -1,8 +1,7 @@
 import SignIn from "./signIn";
 import Link from "next/link";
- 
-import styled from "styled-components";
 
+import styled from "styled-components";
 
 const StyledButtonCreate = styled.button`
   cursor: pointer;
@@ -36,7 +35,6 @@ const StyledButtonCreate = styled.button`
   }
 `;
 
-
 const NavButtonGroup = ({ setIsOpen }) => {
   const userWhitelistStatus = true;
 
@@ -48,9 +46,7 @@ const NavButtonGroup = ({ setIsOpen }) => {
           onClick={() => setIsOpen(false)}
         >
           <Link href="/create">
-            <StyledButtonCreate>
-              Create
-             </StyledButtonCreate>
+            <StyledButtonCreate>Create</StyledButtonCreate>
           </Link>
         </div>
       ) : (
@@ -61,7 +57,7 @@ const NavButtonGroup = ({ setIsOpen }) => {
         </div>
       )}
       <div onClick={() => setIsOpen(false)}>
-       <SignIn />
+        <SignIn />
       </div>
     </div>
   );

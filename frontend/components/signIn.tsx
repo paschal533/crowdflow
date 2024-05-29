@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
-import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
-import { AuthService } from "@/utils/authService";
+import * as AuthService from "@/utils/authService";
 import Wallet from "./Wallet";
 import Image from "next/image";
 import styled from "styled-components";
@@ -39,35 +38,35 @@ const StyledButton = styled.button`
   }
 `;
 const SignIn = () => {
-    const { currentAccount, logout, balance } = useContext(AuthContext);
-  const authService = new AuthService();
-  
-    return (
-      <div>
-        {!currentAccount ? (
-             
-             <StyledButton className="justify-center text-center"  onClick={() => authService.login()}>
-              <Image
-                src={Google}
-                objectFit="contain"
-                width={32}
-                height={32}
-                alt="logo"
-                className="mr-2"
-              />
-               Login with Google
-             </StyledButton>
-           
-     ) : (
-       <Wallet
-         address={currentAccount}
-         amount={balance}
-         symbol="SUI"
-         destroy={logout}
-       />
-     )}
-      </div>
-    )
-}
+  const { currentAccount, logout, balance } = useContext(AuthContext);
+
+  return (
+    <div>
+      {!currentAccount ? (
+        <StyledButton
+          className="justify-center text-center"
+          onClick={() => AuthService.login()}
+        >
+          <Image
+            src={Google}
+            objectFit="contain"
+            width={32}
+            height={32}
+            alt="logo"
+            className="mr-2"
+          />
+          Login with Google
+        </StyledButton>
+      ) : (
+        <Wallet
+          address={currentAccount}
+          amount={balance}
+          symbol="SUI"
+          destroy={logout}
+        />
+      )}
+    </div>
+  );
+};
 
 export default SignIn;

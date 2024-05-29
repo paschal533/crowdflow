@@ -12198,18 +12198,10 @@
   "ast": {
     "absolutePath": "project:/contracts/Fundraiser.sol",
     "exportedSymbols": {
-      "Context": [
-        21
-      ],
-      "Fundraiser": [
-        471
-      ],
-      "Ownable": [
-        774
-      ],
-      "SafeMath": [
-        1086
-      ]
+      "Context": [21],
+      "Fundraiser": [471],
+      "Ownable": [774],
+      "SafeMath": [1086]
     },
     "id": 472,
     "license": "MIT",
@@ -12217,12 +12209,7 @@
     "nodes": [
       {
         "id": 23,
-        "literals": [
-          "solidity",
-          "^",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:1"
       },
@@ -12264,18 +12251,11 @@
             "src": "140:7:1"
           }
         ],
-        "contractDependencies": [
-          21,
-          774
-        ],
+        "contractDependencies": [21, 774],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 471,
-        "linearizedBaseContracts": [
-          471,
-          774,
-          21
-        ],
+        "linearizedBaseContracts": [471, 774, 21],
         "name": "Fundraiser",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -14260,9 +14240,7 @@
               "src": "2076:526:1",
               "statements": [
                 {
-                  "assignments": [
-                    208
-                  ],
+                  "assignments": [208],
                   "declarations": [
                     {
                       "constant": false,
@@ -14382,10 +14360,7 @@
                     "isPure": false,
                     "kind": "structConstructorCall",
                     "lValueRequested": false,
-                    "names": [
-                      "value",
-                      "date"
-                    ],
+                    "names": ["value", "date"],
                     "nodeType": "FunctionCall",
                     "src": "2109:69:1",
                     "tryCall": false,
@@ -14398,9 +14373,7 @@
                   "src": "2082:96:1"
                 },
                 {
-                  "assignments": [
-                    218
-                  ],
+                  "assignments": [218],
                   "declarations": [
                     {
                       "constant": false,
@@ -14550,11 +14523,7 @@
                     "isPure": false,
                     "kind": "structConstructorCall",
                     "lValueRequested": false,
-                    "names": [
-                      "donor",
-                      "value",
-                      "date"
-                    ],
+                    "names": ["donor", "value", "date"],
                     "nodeType": "FunctionCall",
                     "src": "2219:97:1",
                     "tryCall": false,
@@ -15157,9 +15126,7 @@
               "src": "2736:319:1",
               "statements": [
                 {
-                  "assignments": [
-                    281
-                  ],
+                  "assignments": [281],
                   "declarations": [
                     {
                       "constant": false,
@@ -15427,9 +15394,7 @@
                     "src": "2888:134:1",
                     "statements": [
                       {
-                        "assignments": [
-                          313
-                        ],
+                        "assignments": [313],
                         "declarations": [
                           {
                             "constant": false,
@@ -15757,9 +15722,7 @@
                   },
                   "id": 336,
                   "initializationExpression": {
-                    "assignments": [
-                      302
-                    ],
+                    "assignments": [302],
                     "declarations": [
                       {
                         "constant": false,
@@ -15994,9 +15957,7 @@
               "src": "3220:407:1",
               "statements": [
                 {
-                  "assignments": [
-                    355
-                  ],
+                  "assignments": [355],
                   "declarations": [
                     {
                       "constant": false,
@@ -16364,9 +16325,7 @@
                     "src": "3408:178:1",
                     "statements": [
                       {
-                        "assignments": [
-                          395
-                        ],
+                        "assignments": [395],
                         "declarations": [
                           {
                             "constant": false,
@@ -16763,9 +16722,7 @@
                   },
                   "id": 424,
                   "initializationExpression": {
-                    "assignments": [
-                      384
-                    ],
+                    "assignments": [384],
                     "declarations": [
                       {
                         "constant": false,
@@ -17048,9 +17005,7 @@
               "src": "3691:111:1",
               "statements": [
                 {
-                  "assignments": [
-                    437
-                  ],
+                  "assignments": [437],
                   "declarations": [
                     {
                       "constant": false,

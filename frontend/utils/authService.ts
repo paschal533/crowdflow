@@ -2,11 +2,15 @@ import axios from "axios";
 
 import { SUI_CLIENT } from "./suiClient";
 
-import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
+import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 
-import { generateNonce, generateRandomness, getExtendedEphemeralPublicKey } from '@mysten/zklogin';
+import {
+  generateNonce,
+  generateRandomness,
+  getExtendedEphemeralPublicKey,
+} from "@mysten/zklogin";
 
-import { jwtToAddress } from '@mysten/zklogin';
+import { jwtToAddress } from "@mysten/zklogin";
 
 import { genAddressSeed, getZkLoginSignature } from "@mysten/zklogin";
 
@@ -22,298 +26,230 @@ const OPENID_PROVIDER_URL = process.env.NEXT_PUBLIC_OPENID_PROVIDER_URL;
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
 
-export class AuthService {
+async function salt() {
+  const email = await claims()["email"];
 
+  return await hashcode(email);
+}
 
-    static getAddressSeed() {
+export async function getAddressSeed() {
+  const jwt = await decodeJwt();
 
-        const jwt = AuthService.decodeJwt();
+  //@ts-ignore
+  const salt = await salt();
 
-        const salt = AuthService.salt();
+  return genAddressSeed(
+    BigInt(salt!),
+    "sub",
+    jwt.sub,
+    jwt.aud.toString()
+  ).toString();
+}
 
-        return genAddressSeed(BigInt(salt!), "sub", jwt.sub, jwt.aud.toString()).toString();
+export async function getEd25519Keypair(): Promise<any> {
+  const jwtData = await getJwtData();
 
-    }
+  const publicKey = new Uint8Array(
+    Object.values(jwtData.ephemeralKeyPair.keypair.publicKey)
+  );
 
+  const secretKey = new Uint8Array(
+    Object.values(jwtData.ephemeralKeyPair.keypair.secretKey)
+  );
 
-    static getEd25519Keypair(): Ed25519Keypair {
+  return new Ed25519Keypair({ publicKey, secretKey });
+}
 
-        const jwtData = AuthService.getJwtData();
+async function getPartialZkLoginSignature(): Promise<any> {
+  const keyPair = await getEd25519Keypair();
 
-        const publicKey = new Uint8Array(Object.values(jwtData.ephemeralKeyPair.keypair.publicKey));
+  const extendedEphemeralPublicKey = getExtendedEphemeralPublicKey(
+    keyPair.getPublicKey()
+  );
 
-        const secretKey = new Uint8Array(Object.values(jwtData.ephemeralKeyPair.keypair.secretKey));
+  const verificationPayload = {
+    jwt: await jwt(),
 
-        return new Ed25519Keypair({ publicKey, secretKey })
+    extendedEphemeralPublicKey,
 
-    }
+    maxEpoch: await getMaxEpoch(),
 
+    jwtRandomness: await getRandomness(),
 
-    static async getPartialZkLoginSignature(): Promise<any> {
+    salt: await salt(),
 
-        const keyPair = AuthService.getEd25519Keypair();
+    keyClaimName: "sub",
+  };
 
-        const extendedEphemeralPublicKey = getExtendedEphemeralPublicKey(keyPair.getPublicKey());
+  return await verifyPartialZkLoginSignature(verificationPayload);
+}
 
-        const verificationPayload = {
+async function verifyPartialZkLoginSignature(zkpRequestPayload: any) {
+  try {
+    const proofResponse = await axios.post(PROVER_URL, zkpRequestPayload, {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
 
-            jwt: AuthService.jwt(),
+    const partialZkLoginSignature =
+      proofResponse.data as PartialZkLoginSignature;
 
-            extendedEphemeralPublicKey,
+    return partialZkLoginSignature;
+  } catch (error) {
+    console.log("failed to reqeust the partial sig: ", error);
 
-            maxEpoch: this.getMaxEpoch(),
+    return {};
+  }
+}
 
-            jwtRandomness: this.getRandomness(),
+export async function generateZkLoginSignature(
+  userSignature: string
+): Promise<SerializedSignature> {
+  const partialZkLoginSignature = await getPartialZkLoginSignature();
 
-            salt: AuthService.salt(),
+  const addressSeed = await getAddressSeed();
 
-            keyClaimName: "sub"
+  const maxEpoch = await getMaxEpoch();
 
-        };
+  return getZkLoginSignature({
+    inputs: {
+      ...partialZkLoginSignature,
 
-        return await AuthService.verifyPartialZkLoginSignature(verificationPayload);
+      addressSeed,
+    },
 
-    }
+    maxEpoch,
 
+    userSignature,
+  });
+}
 
-    private static async verifyPartialZkLoginSignature(zkpRequestPayload: any) {
+function getMaxEpoch() {
+  return getJwtData().maxEpoch;
+}
 
-        try {
+function getRandomness() {
+  return getJwtData().randomness;
+}
 
-            const proofResponse = await axios.post(PROVER_URL, zkpRequestPayload, {
+function getJwtData() {
+  return JSON.parse(sessionStorage.getItem("jwt_data"));
+}
 
-                headers: {
+function decodeJwt(): JwtPayload {
+  const jwt = sessionStorage.getItem("sui_jwt_token");
 
-                    'content-type': 'application/json'
+  return jwtDecode(jwt) as JwtPayload;
+}
 
-                }
+export async function walletAddress() {
+  const email = await claims()["email"];
 
-            });
+  return jwtToAddress(jwt(), hashcode(email));
+}
 
-            const partialZkLoginSignature = proofResponse.data as PartialZkLoginSignature;
+function claims() {
+  const token = jwt();
 
-            return partialZkLoginSignature;
+  if (token) return JSON.parse(atob(token.split(".")[1]));
+}
 
-        } catch (error) {
+function hashcode(s: string) {
+  var h = 0,
+    l = s.length,
+    i = 0;
 
-            console.log("failed to reqeust the partial sig: ", error);
+  if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
 
-            return {};
+  return h.toString();
+}
 
-        }
+export function isAuthenticated() {
+  const token = jwt();
 
-    }
+  return token && token !== "null";
+}
 
+function jwt() {
+  if (typeof window !== "undefined") {
+    return sessionStorage?.getItem("sui_jwt_token");
+  }
+}
 
-    static async generateZkLoginSignature(userSignature: string): Promise<SerializedSignature> {
+export async function login() {
+  const { epoch } = await SUI_CLIENT.getLatestSuiSystemState();
 
-        const partialZkLoginSignature = await AuthService.getPartialZkLoginSignature();
+  const maxEpoch = Number(epoch) + 2222;
 
-        const addressSeed = AuthService.getAddressSeed();
+  const ephemeralKeyPair = new Ed25519Keypair();
 
-        const maxEpoch = AuthService.getMaxEpoch();
+  const randomness = generateRandomness();
 
-        return getZkLoginSignature({
+  const nonce = generateNonce(
+    ephemeralKeyPair.getPublicKey(),
+    maxEpoch,
+    randomness
+  );
 
-            inputs: {
+  const jwtData = {
+    maxEpoch,
 
-                ...partialZkLoginSignature,
+    nonce,
 
-                addressSeed
+    randomness,
 
-            },
+    ephemeralKeyPair,
+  };
 
-            maxEpoch,
+  console.log({ jwtData });
 
-            userSignature,
+  sessionStorage.setItem("jwt_data", JSON.stringify(jwtData));
 
-        });
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
 
-    }
+    redirect_uri: REDIRECT_URL,
 
+    response_type: "id_token",
 
-    static getMaxEpoch() {
+    scope: "openid email",
 
-        return AuthService.getJwtData().maxEpoch;
+    nonce: nonce,
+  });
 
-    }
+  console.log({ params });
 
+  try {
+    const { data } = await axios.get(OPENID_PROVIDER_URL);
 
-    static getRandomness() {
+    console.log({ data });
 
-        return AuthService.getJwtData().randomness;
+    const authUrl = `${data.authorization_endpoint}?${params}`;
 
-    }
-
-
-    private static getJwtData() {
-
-        return JSON.parse(sessionStorage.getItem("jwt_data"));
-
-    }
-
-
-    private static decodeJwt(): JwtPayload {
-
-        const jwt = sessionStorage.getItem('sui_jwt_token');
-
-        return jwtDecode(jwt) as JwtPayload;
-
-    }
-
-
-    private static salt() {
-
-        const email = AuthService.claims()['email'];
-
-        return AuthService.hashcode(email);
-
-    }
-
-
-    static walletAddress() {
-
-        const email = AuthService.claims()['email'];
-
-        return jwtToAddress(AuthService.jwt(), AuthService.hashcode(email));
-
-    }
-
-
-    private static claims() {
-
-        const token = AuthService.jwt();
-
-        if (token)
-
-            return JSON.parse(atob(token.split('.')[1]));
-
-    }
-
-
-    private static hashcode(s: string) {
-
-        var h = 0, l = s.length, i = 0;
-
-        if (l > 0)
-
-            while (i < l)
-
-                h = (h << 5) - h + s.charCodeAt(i++) | 0;
-
-        return h.toString();
-
-    }
-
-
-    static isAuthenticated() {
-
-        const token = AuthService.jwt();
-
-        return token && token !== 'null';
-
-    }
-
-
-    static jwt() {
-
-        return sessionStorage.getItem("sui_jwt_token");
-
-    }
-
-
-    async login() {
-
-        const { epoch } = await SUI_CLIENT.getLatestSuiSystemState();
-
-
-        const maxEpoch = Number(epoch) + 2222;
-
-        const ephemeralKeyPair = new Ed25519Keypair();
-
-        const randomness = generateRandomness();
-
-        const nonce = generateNonce(ephemeralKeyPair.getPublicKey(), maxEpoch, randomness);
-
-        const jwtData = {
-
-            maxEpoch,
-
-            nonce,
-
-            randomness,
-
-            ephemeralKeyPair,
-
-        };
-
-
-        console.log({jwtData})
-
-
-        sessionStorage.setItem("jwt_data", JSON.stringify(jwtData));
-
-
-        const params = new URLSearchParams({
-
-            client_id: CLIENT_ID,
-
-            redirect_uri: REDIRECT_URL,
-
-            response_type: 'id_token',
-
-            scope: 'openid email',
-
-            nonce: nonce,
-
-        });
-
-
-        console.log({params})
-
-        try {
-
-            const { data } = await axios.get(OPENID_PROVIDER_URL);
-
-            console.log({data})
-
-            const authUrl = `${data.authorization_endpoint}?${params}`;
-
-            window.location.href = authUrl;
-
-        } catch (error) {
-
-            console.error('Error initiating Google login:', error);
-
-        }
-
-    }
-
+    location.href = authUrl;
+  } catch (error) {
+    console.error("Error initiating Google login:", error);
+  }
 }
 
 export interface JwtPayload {
+  iss?: string;
 
-    iss?: string;
+  sub?: string;
 
-    sub?: string;
+  aud?: string[] | string;
 
-    aud?: string[] | string;
+  exp?: number;
 
-    exp?: number;
+  nbf?: number;
 
-    nbf?: number;
+  iat?: number;
 
-    iat?: number;
-
-    jti?: string;
-
+  jti?: string;
 }
 
-
 export type PartialZkLoginSignature = Omit<
-
-    Parameters<typeof getZkLoginSignature>['0']['inputs'],
-
-    'addressSeed'
-
+  Parameters<typeof getZkLoginSignature>["0"]["inputs"],
+  "addressSeed"
 >;

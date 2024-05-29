@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { BTN, ProfileStep, UserCampaigns } from "@/components";
+
 import { ProfileContext } from "@/context/ProfileContext";
 import Donations from "@/components/Donations";
 import * as API from "@/services/api";
@@ -29,7 +30,6 @@ const Home = () => {
       getTotalDonations();
     }
   }, [myDonations]);
-
 
   const MenuBar = () => {
     return (
@@ -82,7 +82,7 @@ const Home = () => {
             Profile Page
           </Text>
           <div className="flex items-center justify-center w-full">
-             <SignIn />
+            <SignIn />
           </div>
         </Flex>
       </>
@@ -145,18 +145,21 @@ const Home = () => {
             case "POAPs Received":
               return (
                 <div className="p-4">
-                  {Number(totalDonations) == 0 ? (<div className="text-center text-2xl font-bold mt-8">
-                    No POAP Received
-                  </div>) :
-                  (<div className="relative w-557 minmd:w-2/3 minmd:h-2/3 sm:w-full sm:h-300 h-557 ">
-                  <Image
-                    alt="fundraiser-imageURL"
-                    src="https://openseauserdata.com/files/d80e3b549642e88b2154664c574ea334.svg"
-                    objectFit="cover"
-                    className="shadow-lg rounded-xl"
-                    layout="fill"
-                  />
-                </div>)}
+                  {Number(totalDonations) == 0 ? (
+                    <div className="text-center text-2xl font-bold mt-8">
+                      No POAP Received
+                    </div>
+                  ) : (
+                    <div className="relative w-557 minmd:w-2/3 minmd:h-2/3 sm:w-full sm:h-300 h-557 ">
+                      <Image
+                        alt="fundraiser-imageURL"
+                        src="https://openseauserdata.com/files/d80e3b549642e88b2154664c574ea334.svg"
+                        objectFit="cover"
+                        className="shadow-lg rounded-xl"
+                        layout="fill"
+                      />
+                    </div>
+                  )}
                 </div>
               );
               break;

@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { BiMenuAltRight } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import { AuthContext } from "@/context/AuthContext";
-import { AuthService } from "@/utils/authService";
+import * as AuthService from "@/utils/authService";
 import Wallet from "./Wallet";
 
 const StyledButton = styled.button`
@@ -47,7 +47,6 @@ const StyledButton = styled.button`
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { currentAccount, logout, balance } = useContext(AuthContext);
-  const authService = new AuthService();
 
   useEffect(() => {
     // disable body scroll when navbar is open
@@ -56,7 +55,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky z-20 top-0 left-0 flex flex-row justify-between w-full p-4 bg-white border-b align-center border-nft-gray-1 dark:bg-nft-dark dark:border-nft-black-1">
-     <Notification />
+      <Notification />
       <Logo />
 
       <div className="flex flex-row justify-end flex-initial">
@@ -71,11 +70,9 @@ const Navbar = () => {
       <div className="hidden ml-2 md:flex">
         <div className="mr-4">
           {!currentAccount ? (
-             
-                  <StyledButton  onClick={() => authService.login()}>
-                    Login with Google
-                  </StyledButton>
-                
+            <StyledButton onClick={() => AuthService.login()}>
+              Login with Google
+            </StyledButton>
           ) : (
             <Wallet
               address={currentAccount}

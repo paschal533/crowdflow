@@ -1,21 +1,18 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { FundraiserContext } from "@/context/FundraiserContext";
-import { FundraiserDetailsItem } from "@/types";
 import * as API from "@/services/api";
-import { filter } from "@chakra-ui/react";
 
 const useProfile = () => {
   const [isLoadingUserDonations, setIsLoadingUserDonations] = useState(true);
   const [isLoadingUserCampaigns, setIsLoadingUserCampaigns] = useState(true);
-  const [myDonations, setmyDonations] = useState<FundraiserDetailsItem[]>([]);
+  const [myDonations, setmyDonations] = useState([]);
   const [totalDonations, setTotalDonations] = useState("");
   const [UserCampaigns, setUserCampaigns] = useState([]);
   const [donation, setDonations] = useState([]);
   const { currentAccount } = useContext(AuthContext);
-  const { currentSigner } = useContext(FundraiserContext);
 
-  useEffect(() => {
+  /*useEffect(() => {
     let isMounted = true;
     const fetchAllFundraiserDonations = async () => {
       if (currentAccount) {
@@ -93,10 +90,10 @@ const useProfile = () => {
     return () => {
       isMounted = false;
     };
-  }, [currentAccount]);
+  }, [currentAccount]);*/
 
   const getTotalDonations = async () => {
-    const items = await Promise.all(
+    /*const items = await Promise.all(
       donation.map(async (item) => {
         return item.userDonations;
       })
@@ -111,11 +108,11 @@ const useProfile = () => {
 
     setTotalDonations(
       donations.reduce((a, b) => Number(a) + Number(b), 0).toFixed(2)
-    );
+    );*/
   };
 
   const setNewBeneficiary = async (address: string, beneficiary: string) => {
-    try {
+    /*try {
       await API.setBeneficiary(
         beneficiary,
         address,
@@ -124,15 +121,15 @@ const useProfile = () => {
       );
     } catch (error) {
       console.log(error);
-    }
+    }*/
   };
 
   const withdraw = async (address: string) => {
-    try {
+    /*try {
       await API.withdraw(address, currentAccount, currentSigner);
     } catch (error) {
       console.log(error);
-    }
+    }*/
   };
 
   return {

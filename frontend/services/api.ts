@@ -1,34 +1,96 @@
-import Web3Modal from "web3modal";
-import { ethers, providers } from "ethers";
 import cc from "cryptocompare";
-import { FundraiserFactoryAddress } from "@/config";
-import {
-  FundraiserFactory__factory,
-  Fundraiser__factory,
-} from "@/types/ethers-contracts";
-import { handleNewBeneficiary, handleWithdraw } from "@/services/notifications";
-import {
-  FundraiserItem,
-  MyDonations,
-  FundraiserDetailsItem,
-  FundraiserUserItem,
-  Address,
-} from "@/types";
 
-export const fetchContract = (
-  signerOrProvider: ethers.Signer | ethers.providers.Provider
-) =>
-  FundraiserFactory__factory.connect(
-    FundraiserFactoryAddress,
-    signerOrProvider
+import { TransactionBlock } from "@mysten/sui.js/transactions";
+
+import { PACKAGE_ID, SUI_CLIENT } from "@/utils/suiClient";
+
+import * as AuthService from "@/utils/authService";
+
+async function makeMoveCall(txData: any, txb: TransactionBlock) {
+  const keypair = await AuthService.getEd25519Keypair();
+
+  const sender = await AuthService.walletAddress();
+
+  txb.setSender(sender);
+
+  txb.moveCall(txData);
+
+  const { bytes, signature: userSignature } = await txb.sign({
+    client: SUI_CLIENT,
+
+    signer: keypair,
+  });
+
+  const zkLoginSignature = await AuthService.generateZkLoginSignature(
+    userSignature
   );
 
-export const fetchFundraiserContract = (
-  fundraiserAddress: string,
-  signerOrProvider: ethers.Signer | ethers.providers.Provider
-) => Fundraiser__factory.connect(fundraiserAddress, signerOrProvider);
+  return SUI_CLIENT.executeTransactionBlock({
+    transactionBlock: bytes,
 
-export const fetchFundraisers = async (
+    signature: zkLoginSignature,
+  });
+}
+
+export async function fetchFundraisers() {
+  const txb = new TransactionBlock();
+
+  const txData = {
+    target: `${PACKAGE_ID}::main::Fundraiser`,
+  };
+
+  console.log(txData);
+
+  return txData;
+}
+
+export async function createFundraiser(
+  target: number,
+  milestone_count: number,
+  tokenName: string,
+  symbol: string,
+  name: string,
+  images: Array<string>,
+  categories: Array<string>,
+  description: string,
+  region: string
+) {
+  const txb = new TransactionBlock();
+
+  const txData = {
+    target: `${PACKAGE_ID}::main::create_fundraiser`,
+
+    arguments: [
+      txb.pure.u64(target),
+      txb.pure.u64(milestone_count),
+      txb.pure.string(tokenName),
+      txb.pure.string(symbol),
+      txb.pure.string(name),
+      txb.pure.string.arguments(images),
+      txb.pure.string.arguments(categories),
+      txb.pure.string(description),
+      txb.pure.string(region),
+    ],
+  };
+
+  return await makeMoveCall(txData, txb);
+}
+
+export async function withdraw() {
+  const txb = new TransactionBlock();
+
+  const txData = {
+    target: `${PACKAGE_ID}::main::withdraw_funds`,
+  };
+
+  const res = await makeMoveCall(txData, txb);
+
+  console.log(res);
+
+  return res;
+}
+
+/*export const fetchFundraisers = async (
   limit = 10,
   offset = 0
 ): Promise<FundraiserItem[]> => {
@@ -86,9 +148,9 @@ export const fetchFundraisers = async (
   );
   // @ts-ignore TODO: fix typescript error
   return items;
-};
+};*/
 
-export const fetchFundraisersDetails = async (
+/*export const fetchFundraisersDetails = async (
   limit: number,
   offset: number,
   currentAccount: Address
@@ -128,9 +190,9 @@ export const fetchFundraisersDetails = async (
 
   // @ts-ignore TODO: fix typescript error
   return items;
-};
+};*/
 
-export const fetchFundraiserCampaigns = async (
+/*export const fetchFundraiserCampaigns = async (
   limit: number,
   offset: number,
   currentAccount: Address
@@ -167,35 +229,14 @@ export const fetchFundraiserCampaigns = async (
 
   // @ts-ignore TODO: fix typescript error
   return items;
-};
-
-export default async function getProvider(signer) {
-  try {
-    console.log(signer);
-    /*const web3Modal = new Web3Modal({ disableInjectedProvider: true, cacheProvider: true });
-    await web3Modal.clearCachedProvider()
-    console.log(web3Modal)
-     
-    const connection = await web3Modal.connect();
-    console.log(connection)
-    const provider = new ethers.providers.Web3Provider(connection);
-    console.log(provider)
-
-    const signer = provider.getSigner();
-    console.log(signer)*/
-
-    return signer;
-  } catch (error) {
-    console.log(error);
-  }
-}
+};*/
 
 export const getExchangeRate = async () => {
-  const exchangeRate = await cc.price("ETH", ["USD"]);
+  const exchangeRate = await cc.price("SUI", ["USD"]);
   return exchangeRate["USD"];
 };
 
-export const renderDonationsList = async (donations: MyDonations) => {
+/*export const renderDonationsList = async (donations: MyDonations) => {
   try {
     const exchangeRate = await getExchangeRate();
 
@@ -266,4 +307,4 @@ export const withdraw = async (
   await instance.withdraw({ from: currentAccount });
 
   handleWithdraw();
-};
+};*/

@@ -8615,21 +8615,11 @@
   "ast": {
     "absolutePath": "project:/contracts/FundraiserFactory.sol",
     "exportedSymbols": {
-      "Context": [
-        21
-      ],
-      "Fundraiser": [
-        471
-      ],
-      "FundraiserFactory": [
-        632
-      ],
-      "Ownable": [
-        774
-      ],
-      "SafeMath": [
-        1086
-      ]
+      "Context": [21],
+      "Fundraiser": [471],
+      "FundraiserFactory": [632],
+      "Ownable": [774],
+      "SafeMath": [1086]
     },
     "id": 633,
     "license": "MIT",
@@ -8637,12 +8627,7 @@
     "nodes": [
       {
         "id": 473,
-        "literals": [
-          "solidity",
-          "^",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:2"
       },
@@ -8660,15 +8645,11 @@
       {
         "abstract": false,
         "baseContracts": [],
-        "contractDependencies": [
-          471
-        ],
+        "contractDependencies": [471],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 632,
-        "linearizedBaseContracts": [
-          632
-        ],
+        "linearizedBaseContracts": [632],
         "name": "FundraiserFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -8866,9 +8847,7 @@
               "src": "533:305:2",
               "statements": [
                 {
-                  "assignments": [
-                    511
-                  ],
+                  "assignments": [511],
                   "declarations": [
                     {
                       "constant": false,
@@ -9734,10 +9713,7 @@
                       "id": 564,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4294967278,
-                        4294967278
-                      ],
+                      "overloadedDeclarations": [4294967278, 4294967278],
                       "referencedDeclaration": 4294967278,
                       "src": "1167:7:2",
                       "typeDescriptions": {
@@ -9765,9 +9741,7 @@
                   "src": "1167:61:2"
                 },
                 {
-                  "assignments": [
-                    573
-                  ],
+                  "assignments": [573],
                   "declarations": [
                     {
                       "constant": false,
@@ -10361,9 +10335,7 @@
                   },
                   "id": 627,
                   "initializationExpression": {
-                    "assignments": [
-                      607
-                    ],
+                    "assignments": [607],
                     "declarations": [
                       {
                         "constant": false,

@@ -16,22 +16,20 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { categories } from "@data/categories";
-import Confetti from 'react-confetti';
-import { FiChevronDown } from "react-icons/fi"
+import Confetti from "react-confetti";
+import { FiChevronDown } from "react-icons/fi";
 import { countries } from "@data/countries";
 import styles from "@styles/List.module.css";
 import { numberWithCommas } from "@utils/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext, useMemo, useCallback } from "react";
-import { BsCheck } from "react-icons/bs"
+import { BsCheck } from "react-icons/bs";
 import { useDropzone } from "react-dropzone";
 import { ScaleFade } from "@chakra-ui/react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { FundraiserContext } from "../context/FundraiserContext";
 import { AuthContext } from "@/context/AuthContext";
-import { BTN } from "@components/index";
-import { ConnectKitButton } from "connectkit";
 import styled from "styled-components";
 import SignIn from "@components/signIn";
 
@@ -92,10 +90,13 @@ function List() {
   const [country, setCountry] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [categorie, setCategories] = useState<any>([]);
+  const [tokenName, setTokenName] = useState<string>("");
+  const [symbol, setSymbol] = useState<string>("");
+  const [milestone, setMileStone] = useState<number>();
   const [amount, setAmount] = useState<number>();
   const [isTxnSuccessful, setTxnSuccessful] = useState<boolean>(false);
   const [fileUrl, setFileUrl] = useState<Array<string>>([]);
-  const { connectWallet, currentAccount } = useContext(AuthContext);
+  const { currentAccount } = useContext(AuthContext);
   const { createAFundraiser, isLoadingFundraiser } =
     useContext(FundraiserContext);
 
@@ -105,7 +106,7 @@ function List() {
     try {
       const added = await client.add({ content: file });
 
-      const url = `https://givelife.infura-ipfs.io/ipfs/${added.path}`;
+      const url = `https://nft-kastle.infura-ipfs.io/ipfs/${added.path}`;
 
       setFileUrl((prev) => [...prev, url]);
 
@@ -130,13 +131,15 @@ function List() {
 
     try {
       await createAFundraiser(
+        amount,
+        milestone,
+        tokenName,
+        symbol,
         title,
         fileUrl,
-        categorie,
+        categories,
         description,
-        country,
-        address,
-        amount
+        country
       );
       setTxnSuccessful(true);
     } catch (error) {
@@ -204,10 +207,10 @@ function List() {
           <StepOne
             handleAddressChange={handleAddressChange}
             currentAccount={currentAccount}
-            connectWallet={connectWallet}
             handleAmountChange={handleAmountChange}
             address={address}
             amount={amount}
+            setMileStone={setMileStone}
             setCurrentStep={setCurrentStep}
           />
         );
@@ -225,6 +228,8 @@ function List() {
         return (
           <StepThree
             setDescription={setDescription}
+            setTokenName={setTokenName}
+            setSymbol={setSymbol}
             setCurrentStep={setCurrentStep}
           />
         );
@@ -276,8 +281,8 @@ type StepOneProps = {
   amount: number;
   address: string;
   setCurrentStep: (step: any) => void;
+  setMileStone: (e: any) => void;
   currentAccount: string;
-  connectWallet: () => void;
 };
 
 function StepOne({
@@ -287,7 +292,7 @@ function StepOne({
   address,
   setCurrentStep,
   currentAccount,
-  connectWallet,
+  setMileStone,
 }: StepOneProps) {
   const scrollToTop = () => {
     window.scrollTo({
@@ -325,15 +330,21 @@ function StepOne({
           </HStack>
         </VStack>
         <VStack className={styles.inputContainer}>
-          <Text className={styles.inputHeader}>
-            Enter your campaign goal
-          </Text>
+          <Text className={styles.inputHeader}>Enter your campaign goal</Text>
           <Input
             type="number"
             onChange={handleAmountChange}
             className={styles.input}
           ></Input>
           <Text className={styles.inputUnit}>USD</Text>
+        </VStack>
+        <VStack className={styles.inputContainer}>
+          <Text className={styles.inputHeader}>Enter your Mile stone</Text>
+          <Input
+            type="number"
+            onChange={(e) => setMileStone(e.target.value)}
+            className={styles.input}
+          ></Input>
         </VStack>
       </VStack>
       {currentAccount ? (
@@ -345,7 +356,7 @@ function StepOne({
           Next
         </StyledButton>
       ) : (
-         <SignIn />
+        <SignIn />
       )}
     </VStack>
   );
@@ -414,33 +425,52 @@ function StepTwo({
         </VStack>
         <VStack className={`${styles.inputContainer} w-full`}>
           <Text className={styles.inputHeader}>Choose categories</Text>
-          <div className="container" >
-              <div className={`select-btn ${open}`} onClick={() => open === "" ? setOpen("open") : setOpen("")}>
-                  {Object.keys(selectedCategories).length === 0 ? (<><span className="btn-text font-bold">Select categories</span>
+          <div className="container">
+            <div
+              className={`select-btn ${open}`}
+              onClick={() => (open === "" ? setOpen("open") : setOpen(""))}
+            >
+              {Object.keys(selectedCategories).length === 0 ? (
+                <>
+                  <span className="btn-text font-bold">Select categories</span>
                   <span className="arrow-dwn text-white font-bold">
-                      <FiChevronDown className="text-white"/>
-                  </span></>) : (<><span className="btn-text font-bold">{Object.keys(selectedCategories).length} Selected</span>
+                    <FiChevronDown className="text-white" />
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="btn-text font-bold">
+                    {Object.keys(selectedCategories).length} Selected
+                  </span>
                   <span className="arrow-dwn text-white font-bold">
-                      <FiChevronDown className="text-white"/>
-                  </span></>)}
-              </div>
+                    <FiChevronDown className="text-white" />
+                  </span>
+                </>
+              )}
+            </div>
 
-              <ul className="list-items">
+            <ul className="list-items">
               {categories.map((category, idx) => (
-                <li className={`item ${Object.keys(selectedCategories).includes(category) ? "checked" : ""}`} key={idx} onClick={() => handleSelectCategories(category)}>
-                <span className="checkbox text-white">
-                  <BsCheck />
-                </span>
-                <span className="item-text">{category}</span>
+                <li
+                  className={`item ${
+                    Object.keys(selectedCategories).includes(category)
+                      ? "checked"
+                      : ""
+                  }`}
+                  key={idx}
+                  onClick={() => handleSelectCategories(category)}
+                >
+                  <span className="checkbox text-white">
+                    <BsCheck />
+                  </span>
+                  <span className="item-text">{category}</span>
                 </li>
-              ))}  
+              ))}
             </ul>
           </div>
         </VStack>
         <VStack className={styles.inputContainer}>
-          <Text className={styles.inputHeader}>
-            Where are you based?
-          </Text>
+          <Text className={styles.inputHeader}>Where are you based?</Text>
           <HStack
             className={styles.selectBox}
             onClick={() => setCountriesVisible(!isCountriesVisible)}
@@ -480,9 +510,16 @@ function StepTwo({
 type StepThreeProps = {
   setCurrentStep: (step: any) => void;
   setDescription: (desc: any) => void;
+  setTokenName: (e: any) => void;
+  setSymbol: (e: any) => void;
 };
 
-function StepThree({ setCurrentStep, setDescription }: StepThreeProps) {
+function StepThree({
+  setCurrentStep,
+  setDescription,
+  setTokenName,
+  setSymbol,
+}: StepThreeProps) {
   const [text, setText] = useState();
 
   const scrollToTop = () => {
@@ -510,9 +547,25 @@ function StepThree({ setCurrentStep, setDescription }: StepThreeProps) {
             className={styles.textarea}
           ></Textarea>
           <Text className={styles.inputDescription}>
-            This text will show up in the “About” section of your campaign detail
-            page.
+            This text will show up in the “About” section of your campaign
+            detail page.
           </Text>
+        </VStack>
+        <VStack className={styles.inputContainer}>
+          <Text className={styles.inputHeader}>Enter Token Name</Text>
+          <Input
+            type="text"
+            onChange={(e) => setTokenName(e.target.value)}
+            className={styles.input}
+          ></Input>
+        </VStack>
+        <VStack className={styles.inputContainer}>
+          <Text className={styles.inputHeader}>Enter Token Symbol</Text>
+          <Input
+            type="text"
+            onChange={(e) => setSymbol(e.target.value)}
+            className={styles.input}
+          ></Input>
         </VStack>
       </VStack>
       <StyledButton
