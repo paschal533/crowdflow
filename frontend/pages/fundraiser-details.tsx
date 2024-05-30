@@ -461,7 +461,7 @@ function Cause() {
             name={fundraiser.name}
             image={fundraiser.images[0]}
             onClose={onClose}
-            url={`https://fundbrave2.netlify.app/fundraiser-details?address=${fundraiserAddress}`}
+            url={`https://crowdflow1.netlify.app/fundraiser-details?address=${fundraiserAddress}`}
           />
           {paymentModal && (
             <div

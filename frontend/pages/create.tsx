@@ -360,7 +360,7 @@ function StepOne({
           Next
         </StyledButton>
       ) : (
-        <SignIn />
+        <SignIn width="" />
       )}
     </VStack>
   );

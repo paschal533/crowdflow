@@ -8,7 +8,7 @@ CrowdFlow launches a dedicated token for each fundraising campaign immediately u
 
 ## Benefits
 
-- **Enhanced Liquidity:** Automatic liquidity provision ensures that fundraiser tokens have sufficient liquidity on DEXs, making them more attractive to potential donors and investors.
+- **Enhanced Liquidity:** Automatic liquidity provision ensures that fundraiser tokens have sufficient liquidity on the DEX, making them more attractive to potential donors and investors.
     
 - **Transparency:** Blockchain-based transactions ensure full transparency, increasing trust among donors.
     
@@ -30,6 +30,8 @@ CrowdFlow launches a dedicated token for each fundraising campaign immediately u
 - Mysten/SUI JS (Blockchain Interaction)
 - SUI MOVE (Smart Contract Development Framework)
 - IPFS (File Storage)
+- Supra Oracle (Oracle)
+- Pyth (Price feed)
 
 # ⚙ Requirements For Initial Setup
 - Install NodeJS, should work with any node version below 16.5.0

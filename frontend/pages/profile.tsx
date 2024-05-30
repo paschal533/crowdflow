@@ -82,7 +82,7 @@ const Home = () => {
             Profile Page
           </Text>
           <div className="flex items-center justify-center w-full">
-            <SignIn />
+            <SignIn width="" />
           </div>
         </Flex>
       </>

@@ -57,7 +57,7 @@ const NavButtonGroup = ({ setIsOpen }) => {
         </div>
       )}
       <div onClick={() => setIsOpen(false)}>
-        <SignIn />
+        <SignIn width="" />
       </div>
     </div>
   );

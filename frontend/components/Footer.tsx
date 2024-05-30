@@ -107,8 +107,9 @@ const Footer = () => {
                 image: images.discord,
                 link: "https://discord.com/channels/1021140908323905546/1021140908323905549",
               },
-            ].map((image, index) => (
-              <div className="mx-2 cursor-pointer" key={index}>
+            ].map((image, index) => {
+              return (
+                <div className="mx-2 cursor-pointer" key={index}>
                 <a href={image.link} target="_blank">
                   <Image
                     src={image.image}
@@ -121,7 +122,8 @@ const Footer = () => {
                   />
                 </a>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

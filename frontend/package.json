@@ -15,6 +15,7 @@
     "@mysten/sui.js": "^0.47.0",
     "@mysten/zklogin": "^0.3.6",
     "@popperjs/core": "^2.10.2",
+    "@pythnetwork/price-service-client": "^1.9.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

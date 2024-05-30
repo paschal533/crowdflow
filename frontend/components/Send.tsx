@@ -13,14 +13,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { ethers } from "ethers";
 import CustomContainer from "./CustomContainer";
 
 export default function Send({ user }) {
   const [amount, setAmount] = useState(0);
   const [receiver, setReceiver] = useState("");
   const [sending, setSending] = useState(false);
-  const { ethereum } = window;
 
   const handleChange = (value) => setAmount(value);
 
@@ -30,22 +28,8 @@ export default function Send({ user }) {
     if (!amount || !receiver) return;
     e.preventDefault();
     // @ts-ignore TODO: fix typescript error
-    const parsedAmount = ethers.utils.parseEther(amount);
     setSending(true);
     try {
-      await ethereum.request({
-        // @ts-ignore TODO: fix typescript error
-        method: "eth_sendTransaction",
-        params: [
-          {
-            // @ts-ignore TODO: fix typescript error
-            from: user,
-            to: receiver,
-            gas: "0x5208",
-            value: parsedAmount._hex,
-          },
-        ],
-      });
       toast({
         position: "top-left",
         title: "Token successfully sent.",
