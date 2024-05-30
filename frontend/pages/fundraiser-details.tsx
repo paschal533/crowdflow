@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 import { VStack, Text, HStack, Image, Box, Button } from "@chakra-ui/react";
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useRouter } from "next/router";
@@ -11,6 +11,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import styles from "@styles/Cause.module.css";
+import SignIn from "@components/signIn";
 import {
   Table,
   Thead,
@@ -35,6 +36,7 @@ import { StaticImageData } from "next/image";
 //import { useMatictn } from "@components/KlaytnProvider";
 import styled from "styled-components";
 import { BsShare } from "react-icons/bs";
+import { data } from "@data/info";
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -95,7 +97,6 @@ function Cause() {
     loadDonations,
     withdrawalFunds,
     getFundRaiserDetails,
-    userDonations,
     currentSigner,
     fundraisers,
   } = useContext(FundraiserContext);
@@ -158,7 +159,7 @@ function Cause() {
     const fetchDetails = async () => {
       try {
         setFetching(true);
-        const items = await API.fetchFundraisers();
+        const items = data //await API.fetchFundraisers();
         const res = items.filter((a) => a.address === fundraiserAddress);
         setFundraiser(res[0]);
       } catch (error) {
@@ -235,13 +236,13 @@ function Cause() {
       setPaymentModal(false);
       setSending(true);
       //const signer = await API.getProvider();
-      const instance = API.fetchFundraiserContract(
+      /*const instance = API.fetchFundraiserContract(
         fundraiser.address,
         currentSigner
       );
       await instance.connect(currentSigner).donate({
         value: ethers.utils.parseUnits(MaticAmount.toString(), 18),
-      });
+      });*/
 
       handleDonation(donationValue);
       setSuccessModal(true);
@@ -439,17 +440,7 @@ function Cause() {
                 </Text>
               </HStack>
               {!currentAccount ? (
-                <ConnectKitButton.Custom>
-                  {({ isConnected, show, truncatedAddress, ensName }) => {
-                    return (
-                      <StyledButton onClick={show}>
-                        {isConnected
-                          ? ensName ?? truncatedAddress
-                          : "Connect Wallet"}
-                      </StyledButton>
-                    );
-                  }}
-                </ConnectKitButton.Custom>
+                 <SignIn width="!w-[350px]" />
               ) : (
                 <StyledButton onClick={() => setPaymentModal(true)}>
                   Donate now
@@ -538,12 +529,12 @@ function Cause() {
 
                     <div className="mt-10 flexBetween">
                       <p className="text-base font-semibold font-poppins dark:text-white text-nft-black-1 minlg:text-xl">
-                        Total ETHERS:
+                        Total SUI:
                       </p>
                       {isExchangedLoaded ? (
                         <p className="text-base font-normal font-poppins dark:text-white text-nft-black-1 minlg:text-xl">
                           {isNaN(MaticAmount) ? 0 : MaticAmount.toFixed(4)}
-                          <span className="pl-1 font-semibold">ETHERS</span>
+                          <span className="pl-1 font-semibold">SUI</span>
                         </p>
                       ) : (
                         <Loader />

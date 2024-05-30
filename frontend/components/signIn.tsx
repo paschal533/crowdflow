@@ -37,14 +37,14 @@ const StyledButton = styled.button`
     cursor: no-drop;
   }
 `;
-const SignIn = () => {
+const SignIn = ( { width }) => {
   const { currentAccount, logout, balance } = useContext(AuthContext);
 
   return (
     <div>
       {!currentAccount ? (
         <StyledButton
-          className="justify-center text-center"
+          className={`${width ? width : ""} justify-center text-center`}
           onClick={() => AuthService.login()}
         >
           <Image

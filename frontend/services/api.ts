@@ -57,6 +57,18 @@ export async function createFundraiser(
 ) {
   const txb = new TransactionBlock();
 
+  console.log("starting")
+
+   // Helper function to convert string to Uint8Array
+  const stringToUint8Array = (str) => {
+    return new TextEncoder().encode(str);
+  };
+
+  // Convert strings to Uint8Arrays
+  const encodedImages = images.map(stringToUint8Array);
+  const encodedCategories = categories.map(stringToUint8Array);
+
+
   const txData = {
     target: `${PACKAGE_ID}::main::create_fundraiser`,
 
@@ -66,12 +78,14 @@ export async function createFundraiser(
       txb.pure.string(tokenName),
       txb.pure.string(symbol),
       txb.pure.string(name),
-      txb.pure.string.arguments(images),
-      txb.pure.string.arguments(categories),
+      ...encodedImages.map(image => txb.pure(image)), // spread Uint8Arrays for images
+      ...encodedCategories.map(category => txb.pure(category)), // spread Uint8Arrays for categories
       txb.pure.string(description),
       txb.pure.string(region),
     ],
   };
+
+  console.log(txData)
 
   return await makeMoveCall(txData, txb);
 }

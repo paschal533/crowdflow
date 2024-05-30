@@ -83,21 +83,29 @@ export const useFundraisers = () => {
     region: string
   ) => {
     //@ts-ignore
-    const transaction = await API.createFundraiser(
-      target,
-      milestone_count,
-      tokenName,
-      symbol,
-      name,
-      images,
-      categories,
-      description,
-      region
-    );
+    try {
 
-    setIsLoadingFundraiser(true);
-    handleNewFundraiser();
-    setIsLoadingFundraiser(false);
+      const transaction = await API.createFundraiser(
+        target,
+        milestone_count,
+        tokenName,
+        symbol,
+        name,
+        images,
+        categories,
+        description,
+        region
+      );
+  
+      setIsLoadingFundraiser(true);
+      console.log(transaction)
+      //handleNewFundraiser();
+      //setIsLoadingFundraiser(false);
+
+    }catch (error) {
+      console.log(error)
+    }
+     
   };
 
   // withdraw funds

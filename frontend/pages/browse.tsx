@@ -15,11 +15,13 @@ import { tags } from "@data/tags";
 import { useState, useContext } from "react";
 import { FundraiserContext } from "@/context/FundraiserContext";
 import { shortenAddress } from "@utils/shortenAddress";
+import { data } from "@data/info";
 
 function Browse() {
   const [clicked, setClicked] = useState(false);
   const [cat, setCat] = useState("");
-  const { fundraisers, isLoadingFundraiser } = useContext(FundraiserContext);
+  const { /*fundraisers,*/ isLoadingFundraiser } = useContext(FundraiserContext);
+  const fundraisers = data;
   const perc = (amount) => {
     return Number(amount).toFixed(2);
   };
@@ -148,8 +150,8 @@ function Browse() {
           </div>
         ) : (
           <div className="w-full flex max-w-7xl flex-wrap justify-start mt-8 md:justify-center">
-            {!isLoadingFundraiser
-              ? fundraisers.slice(0, 6).map((fundraiser) => {
+            {!isLoadingFundraiser && fundraisers.length != null
+              ? fundraisers?.slice(0, 6).map((fundraiser) => {
                   return (
                     <Link
                       href={{

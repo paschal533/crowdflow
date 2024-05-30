@@ -4,8 +4,8 @@ import { FundraiserContext } from "@/context/FundraiserContext";
 import * as API from "@/services/api";
 
 const useProfile = () => {
-  const [isLoadingUserDonations, setIsLoadingUserDonations] = useState(true);
-  const [isLoadingUserCampaigns, setIsLoadingUserCampaigns] = useState(true);
+  const [isLoadingUserDonations, setIsLoadingUserDonations] = useState(false);
+  const [isLoadingUserCampaigns, setIsLoadingUserCampaigns] = useState(false);
   const [myDonations, setmyDonations] = useState([]);
   const [totalDonations, setTotalDonations] = useState("");
   const [UserCampaigns, setUserCampaigns] = useState([]);

@@ -125,15 +125,13 @@ const Home = () => {
                     <ProfileStep
                       icon={<MdOutlineAccountBalanceWallet />}
                       title="Wallet Balance"
-                      description={`Your wallet balance ${balance?.toFixed(
-                        2
-                      )} USD`}
+                      description={`Your wallet balance ${balance} SUI`}
                     />
                     <br />
                     <ProfileStep
                       icon={<MdOutlineAccountBalanceWallet />}
                       title="Total Donations"
-                      description={`Your Total Donation is ${totalDonations} USD`}
+                      description={`Your Total Donation is 0 SUI`}
                     />
                   </div>
                   <div className=" max-w-[1100px] w-full mt-4 drop-shadow-2xl">

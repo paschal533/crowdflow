@@ -127,10 +127,12 @@ function List() {
   }
 
   const createFundraiser = async () => {
-    if (!title || !description || !address || !fileUrl) return;
+
+    if (!title || !description || !fileUrl || !amount || !milestone || !tokenName || !symbol || !country) return;
+     console.log("next")
 
     try {
-      await createAFundraiser(
+      const res = await createAFundraiser(
         amount,
         milestone,
         tokenName,
@@ -141,7 +143,9 @@ function List() {
         description,
         country
       );
-      setTxnSuccessful(true);
+
+      console.log(res)
+      //setTxnSuccessful(true);
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
@@ -208,7 +212,7 @@ function List() {
             handleAddressChange={handleAddressChange}
             currentAccount={currentAccount}
             handleAmountChange={handleAmountChange}
-            address={address}
+            milestone={milestone}
             amount={amount}
             setMileStone={setMileStone}
             setCurrentStep={setCurrentStep}
@@ -279,7 +283,7 @@ type StepOneProps = {
   handleAddressChange: (e: any) => void;
   handleAmountChange: (e: any) => void;
   amount: number;
-  address: string;
+  milestone: number;
   setCurrentStep: (step: any) => void;
   setMileStone: (e: any) => void;
   currentAccount: string;
@@ -289,7 +293,7 @@ function StepOne({
   handleAddressChange,
   handleAmountChange,
   amount,
-  address,
+  milestone,
   setCurrentStep,
   currentAccount,
   setMileStone,
@@ -349,7 +353,7 @@ function StepOne({
       </VStack>
       {currentAccount ? (
         <StyledButton
-          disabled={!amount || !address}
+          disabled={!amount || !milestone}
           className={styles.donateBtn}
           onClick={() => setCurrentStep((prev) => prev + 1)}
         >
@@ -756,10 +760,10 @@ function ReviewCause({
           <HStack>
             <Image
               alt="SUI logo"
-              src="/SUI.png"
+              src="/sui-logo.png"
               className={styles.klaytnLogo}
             ></Image>
-            <Text fontWeight={500}>SUIeum</Text>
+            <Text fontWeight={500}>SUI</Text>
           </HStack>
           <Divider />
         </VStack>
@@ -768,7 +772,7 @@ function ReviewCause({
           <HStack>
             <Image
               alt="SUI logo"
-              src="/SUI.png"
+              src="/sui-logo.png"
               className={styles.klaytnLogo}
             ></Image>
             <Text fontWeight={500}>SUI</Text>
