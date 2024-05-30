@@ -1,0 +1,14 @@
+NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID =  
+NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET = 
+NEXT_PUBLIC_INFURA_ProjectAPIKey =  
+NEXT_PUBLIC_CLIENT_ID = 
+NEXT_PUBLIC_CLIENT_SECRET = 
+NEXT_PUBLIC_PROVER_URL = https://prover-dev.mystenlabs.com/v1
+
+NEXT_PUBLIC_REDIRECT_URL = http://localhost:3000/callback
+
+NEXT_PUBLIC_OPENID_PROVIDER_URL = https://accounts.google.com/.well-known/openid-configuration
+
+NEXT_PUBLIC_FULLNODE_URL = https://fullnode.testnet.sui.io:443
+
+NEXT_PUBLIC_PACKAGE_ID = 0xe3e4ef7008b9ebd94626389c287e2da6441fea405471eb268d41cb51b1efc199
