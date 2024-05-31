@@ -6,6 +6,23 @@ CrowdFlow is a decentralized application (dApp) designed to streamline fundraisi
 
 CrowdFlow launches a dedicated token for each fundraising campaign immediately upon its creation. This token is used to incentivize donations and provide liquidity. For every donation, portions of the fundraiser token are minted: half is given to the donor, and the other half is added to a liquidity pool for trading.
 
+## Key Features
+
+### Decentralized Fundraising:
+
+- **Secure Donations:** Users can donate securely using blockchain technology, ensuring transparency and immutability.
+Automated Token Minting: Upon donation, fundraiser tokens are automatically minted and distributed to donors as proof of contribution.
+Fund Receipts: Donors receive digital receipts for their contributions, maintaining a verifiable record of transactions.
+Liquidity Pool Integration:
+
+- **Automated Liquidity Provision:** A portion of each donation is automatically added to a liquidity pool on a DEX, enhancing the liquidity of the fundraiser's token.
+Liquidity Pool Creation: If no existing liquidity pool is found, a new one is created, ensuring continuous liquidity provision.
+Efficient Fund Management:
+
+- **Token Treasury:** Each fundraising campaign has a token treasury, ensuring a dedicated supply of fundraiser tokens.
+  
+- **Transparency and Accountability:** The use of blockchain ensures that all transactions are transparent and traceable, promoting accountability.
+
 ## Benefits
 
 - **Enhanced Liquidity:** Automatic liquidity provision ensures that fundraiser tokens have sufficient liquidity on the DEX, making them more attractive to potential donors and investors.
