@@ -14,7 +14,8 @@ CrowdFlow launches a dedicated token for each fundraising campaign immediately u
   
 - **Automated Token Minting:** Upon donation, fundraiser tokens are automatically minted and distributed to donors as proof of contribution.
 Fund Receipts: Donors receive digital receipts for their contributions, maintaining a verifiable record of transactions.
-Liquidity Pool Integration:
+
+### Liquidity Pool Integration:
 
 - **Automated Liquidity Provision:** A portion of each donation is automatically added to a liquidity pool on a DEX, enhancing the liquidity of the fundraiser's token.
 
