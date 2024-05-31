@@ -22,6 +22,12 @@ CrowdFlow launches a dedicated token for each fundraising campaign immediately u
 
 - **Community Initiatives:** Community-driven projects can benefit from automated and transparent fundraising mechanisms.
 
+![screenshot](../frontend/assets/crowdflow.png)
+
+![screenshot](../frontend/assets/crowdflow1.png)
+
+![screenshot](../frontend/assets/crowdflow2.png)
+
 # 🛠 Technology Stack & Tools
 
 - MOVE (Writing Smart Contract)
