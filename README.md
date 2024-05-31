@@ -133,7 +133,7 @@ sui move build
 sui client publish --gas-budget 1000000000
 ```
 
-# 📄 Smart-contract address
+# 📄 PACKAGE ID
 
 ```
 0xe3e4ef7008b9ebd94626389c287e2da6441fea405471eb268d41cb51b1efc199
