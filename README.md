@@ -11,12 +11,14 @@ CrowdFlow launches a dedicated token for each fundraising campaign immediately u
 ### Decentralized Fundraising:
 
 - **Secure Donations:** Users can donate securely using blockchain technology, ensuring transparency and immutability.
-Automated Token Minting: Upon donation, fundraiser tokens are automatically minted and distributed to donors as proof of contribution.
+  
+- **Automated Token Minting:** Upon donation, fundraiser tokens are automatically minted and distributed to donors as proof of contribution.
 Fund Receipts: Donors receive digital receipts for their contributions, maintaining a verifiable record of transactions.
 Liquidity Pool Integration:
 
 - **Automated Liquidity Provision:** A portion of each donation is automatically added to a liquidity pool on a DEX, enhancing the liquidity of the fundraiser's token.
-Liquidity Pool Creation: If no existing liquidity pool is found, a new one is created, ensuring continuous liquidity provision.
+
+- **Liquidity Pool Creation:** If no existing liquidity pool is found, a new one is created, ensuring continuous liquidity provision.
 Efficient Fund Management:
 
 - **Token Treasury:** Each fundraising campaign has a token treasury, ensuring a dedicated supply of fundraiser tokens.
